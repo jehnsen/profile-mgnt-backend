@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import {
   createUserProfile,
   getUserProfiles,
@@ -6,8 +6,13 @@ import {
   updateUserProfile,
   deleteUserProfile
 } from '../services/userProfileService';
+import cache from '../utils/cache';
 
-export const createProfile = async (req: Request, res: Response) => {
+type AsyncHandler = (req: Request, res: Response, next: NextFunction) => Promise<void>;
+
+const asyncHandler = (fn: AsyncHandler) => (req: Request, res: Response, next: NextFunction) => Promise.resolve(fn(req, res, next)).catch(next);
+
+export const createProfile = asyncHandler(async (req: Request, res: Response) => {
   const { name, email, age, tags } = req.body;
   try {
     const newUserProfile = await createUserProfile({ name, email, age, tags });
@@ -19,20 +24,23 @@ export const createProfile = async (req: Request, res: Response) => {
       res.status(500).json({ error: 'An unexpected error occurred' });
     }
   }
-};
+});
 
-export const getAllProfiles = async (req: Request, res: Response) => {
-  try {
-    const userProfiles = await getUserProfiles();
-    res.status(200).json(userProfiles);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: 'An unexpected error occurred' });
-    }
-  }
-};
+export const getAllProfiles = asyncHandler(async (req: Request, res: Response) => {
+    // const cacheKey = 'allProfiles';
+    // const cachedProfiles = cache.get(cacheKey);
+  
+    // if (cachedProfiles) {
+    //   res.json(cachedProfiles);
+    //   return;
+    // }
+  
+    const profiles = await getUserProfiles();
+    // // temporarily disable caching to prevent confusion in the frontend
+    // //you can uncomment if you want to test (line 30-36) & line 41
+    // cache.set(cacheKey, profiles); 
+    res.json(profiles);
+  });
 
 export const getProfileById = async (req: Request, res: Response) => {
   try {

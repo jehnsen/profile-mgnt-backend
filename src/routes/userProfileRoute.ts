@@ -6,13 +6,14 @@ import {
   updateProfile,
   deleteProfile
 } from '../controllers/userProfileController';
+import validateProfile from '../middlewares/validateProfile';
 
 const router = Router();
 
-router.post('/', createProfile);
+router.post('/', validateProfile, createProfile);
 router.get('/', getAllProfiles);
 router.get('/:id', getProfileById);
-router.put('/:id', updateProfile);
+router.put('/:id', validateProfile, updateProfile);
 router.delete('/:id', deleteProfile);
 
 export default router;
