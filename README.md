@@ -3,6 +3,20 @@
 # BACKEND (Nodejs API)
 # ----------------------------------------------------------------
 
+
+# How to setup
+--------------
+
+1. Install the required dependencies.
+    ex. `npm install` or `yarn install`
+
+2. Enter your mongodb connection settings and port in `.env` file.
+        `MONGODB_URI`-`your-mongodb-connectionstring`
+        `PORT`=`3001`
+
+2. Run the app `npm start`
+    - `the app will run on PORT 3001`
+
 --------------------------------
 ### Bug Identification and Fixes 
 --------------------------------
@@ -57,6 +71,7 @@
 5. As the application grows, implementing `Microservice Architecture` for backend API services like Node.js can significantly enhance scalability, flexibility, fault isolation, deployment independence, maintainability, resource optimization, and team productivity. This modular approach aligns well with the dynamic and asynchronous nature of Node.js, making it an ideal fit for building robust, scalable, and maintainable web applications.
 6. Adding authentication and authorization to the API enhances security by ensuring that only authenticated users can access the API and that users have the correct permissions to perform actions
 7. Implementing database optimization techniques, such as indexing, can significantly enhance the performance and efficiency of frequently accessed collections. Indexing helps speed up query processing by creating data structures that allow for faster retrieval of records. Determine which fields are most often used in queries and filter conditions and Add indexes to these fields to speed up query performance.
+8. Create unit tests to avoid bugs in the production environment
 
 ### Optional Enhancements
 --------------------------
