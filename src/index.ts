@@ -16,6 +16,8 @@ const PORT = process.env.PORT || 3001;
 // create server instance
 const app = express();
 
+// Enable 'trust proxy' setting
+app.set('trust proxy', true);
 app.use(express.json());
 app.use(helmet());
 app.use(xss());
